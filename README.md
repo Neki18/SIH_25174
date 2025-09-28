@@ -85,6 +85,23 @@ The app uses SQLite for offline data storage, handling user credentials and catc
 - `lib/models/` - Data models.
 - `lib/services/` - Services like database handling.
 
+
+fish_mvp1/
+├─ lib/
+│  ├─ main.dart
+│  ├─ screens/
+│  │  ├─ register_screen.dart
+│  │  ├─ login_screen.dart
+│  │  └─ home_screen.dart
+│  ├─ services/
+│  │  └─ db_service.dart
+│  └─ models/
+│     └─ user.dart
+├─ assets/
+│  └─ screenshots/
+├─ pubspec.yaml
+└─ ...
+
 ---
 
 ## Screens Implemented
