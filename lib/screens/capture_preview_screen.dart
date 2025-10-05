@@ -2,10 +2,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'fish_details_screen.dart';
 
 class CapturePreviewScreen extends StatefulWidget {
   final File initialImage;
-  const CapturePreviewScreen({Key? key, required this.initialImage}) : super(key: key);
+  const CapturePreviewScreen({Key? key, required this.initialImage})
+    : super(key: key);
 
   @override
   State<CapturePreviewScreen> createState() => _CapturePreviewScreenState();
@@ -37,21 +39,27 @@ class _CapturePreviewScreenState extends State<CapturePreviewScreen> {
         });
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error picking image: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error picking image: $e')));
     } finally {
       setState(() => _isProcessing = false);
     }
   }
 
   void _usePhoto() {
-    // For now: show snackbar. Later: navigate to details or save.
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Photo selected for processing.')),
-    );
-    // Example: pop and return the image path if needed
-    Navigator.pop(context, _image?.path);
+    if (_image != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => FishDetailsScreen(initialImage: _image!),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('No image selected!')));
+    }
   }
 
   void _clearSelection() {
@@ -62,10 +70,7 @@ class _CapturePreviewScreenState extends State<CapturePreviewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Preview'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('Preview'), centerTitle: true),
       body: _isProcessing
           ? const Center(child: CircularProgressIndicator())
           : SafeArea(
@@ -79,7 +84,10 @@ class _CapturePreviewScreenState extends State<CapturePreviewScreen> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 12.0,
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -88,7 +96,9 @@ class _CapturePreviewScreenState extends State<CapturePreviewScreen> {
                           onPressed: () => _replaceImage(ImageSource.camera),
                           icon: const Icon(Icons.camera_alt),
                           label: const Text('Retake'),
-                          style: ElevatedButton.styleFrom(minimumSize: const Size(120, 44)),
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(120, 44),
+                          ),
                         ),
 
                         // Replace from gallery
@@ -96,20 +106,27 @@ class _CapturePreviewScreenState extends State<CapturePreviewScreen> {
                           onPressed: () => _replaceImage(ImageSource.gallery),
                           icon: const Icon(Icons.photo_library),
                           label: const Text('Replace'),
-                          style: ElevatedButton.styleFrom(minimumSize: const Size(120, 44)),
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(120, 44),
+                          ),
                         ),
                       ],
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                      vertical: 12.0,
+                    ),
                     child: Row(
                       children: [
                         Expanded(
                           child: ElevatedButton(
                             onPressed: _usePhoto,
                             child: const Text('Use Photo'),
-                            style: ElevatedButton.styleFrom(minimumSize: const Size.fromHeight(48)),
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: const Size.fromHeight(48),
+                            ),
                           ),
                         ),
                         const SizedBox(width: 12),
