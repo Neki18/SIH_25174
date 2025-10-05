@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'capture_preview_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,21 +18,21 @@ class _HomeScreenState extends State<HomeScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Select Image Source'),
+        title: const Text('Select Image Source'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: Icon(Icons.camera_alt),
-              title: Text('Take Photo'),
+              leading: const Icon(Icons.camera_alt),
+              title: const Text('Take Photo'),
               onTap: () {
                 Navigator.pop(context);
                 _pickImage(ImageSource.camera);
               },
             ),
             ListTile(
-              leading: Icon(Icons.photo_library),
-              title: Text('Upload from Gallery'),
+              leading: const Icon(Icons.photo_library),
+              title: const Text('Upload from Gallery'),
               onTap: () {
                 Navigator.pop(context);
                 _pickImage(ImageSource.gallery);
@@ -49,6 +50,18 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         _image = File(pickedFile.path);
       });
+      // Navigate to the preview screen
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => CapturePreviewScreen(initialImage: _image!),
+        ),
+      ).then((value) {
+        // Reset image when coming back if needed
+        setState(() {
+          _image = null;
+        });
+      });
     }
   }
 
@@ -56,33 +69,25 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Fish MVP Home'),
+        title: const Text('Fish MVP Home'),
         centerTitle: true,
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'Welcome to Fish MVP!',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _showImageSourceDialog,
-              child: Text('Capture Fish'),
+              child: const Text('Capture Fish'),
               style: ElevatedButton.styleFrom(
-                minimumSize: Size(200, 50),
+                minimumSize: const Size(200, 50),
               ),
             ),
-            SizedBox(height: 20),
-            if (_image != null)
-              Image.file(
-                _image!,
-                width: 200,
-                height: 200,
-                fit: BoxFit.cover,
-              ),
           ],
         ),
       ),
