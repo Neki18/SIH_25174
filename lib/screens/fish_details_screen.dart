@@ -1,10 +1,11 @@
 // lib/screens/fish_details_screen.dart
 import 'dart:io';
+import 'package:fish_mvp1/screens/gallery_screen.dart';
 import 'package:flutter/material.dart';
 
 class FishDetailsScreen extends StatefulWidget {
   final File initialImage;
-  const FishDetailsScreen({Key? key, required this.initialImage}) : super(key: key);
+  const FishDetailsScreen({Key? key, required this.initialImage, required File image}) : super(key: key);
 
   @override
   State<FishDetailsScreen> createState() => _FishDetailsScreenState();
@@ -18,15 +19,20 @@ class _FishDetailsScreenState extends State<FishDetailsScreen> {
   final TextEditingController _notesController = TextEditingController();
 
   void _saveDetails() {
-    if (_formKey.currentState!.validate()) {
-      // TODO: Send details + image to backend
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Fish details saved successfully!')),
-      );
+  if (_formKey.currentState!.validate()) {
+    // TODO: Send details + image to backend
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Fish details saved successfully!')),
+    );
 
-      Navigator.pop(context); // or navigate somewhere else
-    }
+    // Navigate to GalleryScreen and replace current screen
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const GalleryScreen()),
+    );
   }
+}
+
 
   @override
   Widget build(BuildContext context) {

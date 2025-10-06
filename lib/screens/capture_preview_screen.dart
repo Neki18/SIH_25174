@@ -52,7 +52,7 @@ class _CapturePreviewScreenState extends State<CapturePreviewScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => FishDetailsScreen(initialImage: _image!),
+          builder: (context) => FishDetailsScreen(initialImage: _image!, image: _image!),
         ),
       );
     } else {
