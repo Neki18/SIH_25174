@@ -1,5 +1,5 @@
-name: fish_mvp1
-description: "Aqualens (Fish MVP) - Identify fish species using AI and image recognition."
+name: AQUALENS
+description: "Aqualens - Identify fish species using AI and image recognition."
 publish_to: 'none'
 
 version: 1.0.0+1
