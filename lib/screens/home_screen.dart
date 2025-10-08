@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   Future<void> _loadUserData() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      username = prefs.getString('username');
+      username = prefs.getString('username')
       email = prefs.getString('email');
       phone = prefs.getString('phone');
     });
